@@ -1,22 +1,17 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
+const mainController = require('../controllers');
+const pj = require('../package.json');
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+router.get('/', (req, res) => {
+  res.status(200).json({ name: pj.name, version: pj.version});
 });
 
-const getUrl = (req, res) => {
-  res.status(200).json({ message: 'get url' });
- };
- 
- const saveUrl = (req, res) => {
-     res.status(200).json({ message: 'save url' });
- };
- /* Create a short URL */
- router.post('/', saveUrl);
- 
- /* Get original URL */
- router.get('/:code', getUrl);
- 
+/* Create a short URL */
+router.post('/', mainController.saveUrl);
+
+/* Get original URL */
+router.get('/:code', mainController.getUrl);
+
 module.exports = router;

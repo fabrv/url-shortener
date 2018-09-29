@@ -1,0 +1,11 @@
+{
+  "name": "url-shortener",
+  "version": "1.0.0",
+  "description": "Simple Node URL shortener",
+  "main": "app.js",
+  "scripts": {
+    "test": "node app.js"
+  },
+  "author": "Fabrizzio Rivera",
+  "license": "GPL-3.0"
+}
