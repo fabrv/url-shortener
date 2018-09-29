@@ -4,8 +4,15 @@
   "description": "Simple Node URL shortener",
   "main": "app.js",
   "scripts": {
-    "test": "node app.js"
+    "start": "node dist/index.js",
+    "test": "tsc"
   },
   "author": "Fabrizzio Rivera",
-  "license": "GPL-3.0"
+  "license": "GPL-3.0",
+  "dependencies": {
+    "express": "^4.16.3"
+  },
+  "devDependencies": {
+    "@types/node": "^10.11.3"
+  }
 }
