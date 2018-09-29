@@ -10,10 +10,12 @@ class App {
 
   private mountRoutes (): void {
     const router = express.Router();
-    router.get('/', (req, res) => {
+    router.get('/:code', (req, res) => {
       res.json({
-        message: 'Hello World!'
+        message: `Resquested ${req.params.code}`
       });
+      console.log(`Resquested ${req.params.code}`);
+      console.log("please work")
     });
     this.app.use('/', router);
   }
