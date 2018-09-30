@@ -20,9 +20,10 @@ class App {
     const router = express.Router();
     router.get('/:code', (req, res) => {
       console.log(`Resquested get ${req.params.code}`);
-      res.json({
-        message: `Resquested get ${req.params.code}`
-      });      
+      this.getSite('sites', {code: req.params.code}, (err, docs)=>{
+        console.log(docs);
+        res.json(docs)
+      })      
     });
 
     router.post('/:site', (req, res) => {
@@ -31,7 +32,7 @@ class App {
       res.json({
         message: `Resquested post for ${req.params.site}`,
         answer: ans
-      });      
+      });
     });
     this.app.use('/', router);
   }
@@ -49,8 +50,10 @@ class App {
     return site;
   }
 
-  getSite(code: string){
-
+  getSite (name: string, query:any, cb: any) {
+    mongoose.connection.db.collection(name, function (err, collection) {
+      collection.find(query).toArray(cb);
+    });
   }
 }
 
