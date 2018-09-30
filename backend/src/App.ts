@@ -25,38 +25,55 @@ class App {
     router.get('/:code', (req, res) => {
       console.log(`Resquested get ${req.params.code}`);
       this.getSite('sites', {code: req.params.code}, (err, docs)=>{
-        console.log(docs);
-        res.json(docs)
+        console.log(docs[0]);
+        res.writeHead(301,{Location: docs[0].url});
+        res.end();
       })      
     });
 
     router.use(cors());
     router.post('/:site', (req, res) => {
       console.log(`Resquested post ${req.params.site}`);
-      const ans = this.postSite(req.params.site);
-      res.json({
-        message: `Resquested post for ${req.params.site}`,
-        answer: ans
+      this.postSite('sites', req.params.site).then((site:any)=>{
+        res.json({
+          message: `Resquested post for ${req.params.site}`,
+          answer: site
+        });
       });
     });
     this.app.use('/', router);
   }
 
-  postSite(url: string){    
+  postSite(name: string, url: string){
+    if (!url.includes('http')){
+      url = "http://" + url;
+    }   
     const site = {
       url: url,
       code: (Math.floor(Math.random()*65535)).toString(16)
     };
+    let cb: any = [];
 
-    this.connection.collection('sites').insertOne(site);
-    
-    console.log('Inserted Site:');
-    console.log(site);
-    return site;
+    return new Promise ((siteRow)=>{
+      mongoose.connection.db.collection(name, (err, collection)=>{
+        cb = collection.find( {url: url} ).toArray( (err, docs)=>{
+          console.log(docs.length);        
+          if (docs.length == 0){
+            this.connection.collection(name).insertOne(site);
+      
+            console.log('Inserted Site:');
+            console.log(site);
+            siteRow(site);
+          }else{
+            siteRow(docs[0]);
+          }
+         });
+      })
+    });
   }
 
   getSite (name: string, query:any, cb: any) {
-    mongoose.connection.db.collection(name, function (err, collection) {
+    mongoose.connection.db.collection(name, (err, collection)=> {
       collection.find(query).toArray(cb);
     });
   }

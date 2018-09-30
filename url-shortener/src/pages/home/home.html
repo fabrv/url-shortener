@@ -21,8 +21,9 @@
 
   <ion-list inset *ngIf="shortenLink != ''">
     <ion-item>
-      <ion-label>Vinculo acortado</ion-label>
-      <ion-input disabled="true" [(ngModel)]="shortenLink" type="text"></ion-input>
+      <ion-label floating>Vinculo acortado</ion-label>
+      <ion-input #shortenInput [(ngModel)]="shortenLink" type="text"></ion-input>
     </ion-item>
-  </ion-list>  
+  </ion-list>
+  <button *ngIf="shortenLink != ''" ion-button color="primary" (click)="navigate()">Navegar a vinculo</button>
 </ion-content>

@@ -1,18 +1,17 @@
-import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { Component, ViewChild } from '@angular/core';
+import { NavController, ToastController } from 'ionic-angular';
 import { ShortenerServiceProvider } from '../../providers/shortener-service/shortener-service'
-import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
 })
 export class HomePage {
+  @ViewChild('shortenInput') shortenInput;
   backEndAddress: string = '192.168.0.10:3000';
   fullLink: string = '';
   shortenLink: string = '';
-  constructor(public navCtrl: NavController, public shortener: ShortenerServiceProvider) {
-
+  constructor(public navCtrl: NavController, public shortener: ShortenerServiceProvider, public toastCtrl: ToastController) {    
   }
 
   validURL(url:string) {
@@ -22,9 +21,13 @@ export class HomePage {
 
   shorten(url: string){
     if (this.validURL(url)){
-      const find = '/';
-      const re = new RegExp(find, 'g');
+      let find = '/';
+      let re = new RegExp(find, 'g');
       url = url.replace(re, '%2F');
+
+      find = '\\?';
+      re = new RegExp(find, 'g');
+      url = url.replace(re,'%3F');
 
       this.shortener.postSite(url).then((data: any)=>{
         this.shortenLink = `${this.shortener.backEndAddress}/${data.answer.code}`
@@ -32,6 +35,18 @@ export class HomePage {
     }else{
       console.log('Invalid URL')
     }
+  }
+
+  showMsg(toastCtrl: ToastController) {
+    let toast = toastCtrl.create({
+        message: 'Its copied to clipboard',
+        duration: 3000
+    });
+    toast.present();
+  }
+
+  navigate(){
+    window.open(this.shortenLink);
   }
 
 }
