@@ -1,5 +1,5 @@
 <ion-header no-border>
-  <ion-navbar color="light">
+  <ion-navbar color="primary">
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
@@ -17,7 +17,7 @@
     </ion-item>
   </ion-list>  
 
-  <button ion-button color="primary" (click)="shorten(fullLink)" large>Acortar</button>
+  <button ion-button color="primary" (click)="shorten(fullLink)">Acortar</button>
 
   <ion-list inset *ngIf="shortenLink != ''">
     <ion-item>
