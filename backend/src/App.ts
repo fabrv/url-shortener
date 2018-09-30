@@ -36,17 +36,13 @@ class App {
           if (err){
             res.status(500).send({ status: 'fail', code: '500', message: 'The server encountered an unexpected condition which prevented it from fulfilling the request.', error: err });
           }
-          try {
-            if (docs.length == 0){
-              res.status(404).send({status: 'fail', code: 404, message: 'Not found: The server has not found anything matching the Request-URI.'})
-            }else{
-              console.log(docs[0]);
-              res.writeHead(301,{Location: docs[0].url});
-              res.end();
-            }
-          } catch (error) {
-            res.status(400).send({status: 'fail', code: 400, message: 'Bad request: The request could not be understood by the server due to malformed syntax. The client SHOULD NOT repeat the request without modifications.'})
-          }          
+          if (docs.length == 0){
+            res.status(404).send({status: 'fail', code: 404, message: 'Not found: The server has not found anything matching the Request-URI.'})
+          }else{
+            console.log(docs[0]);
+            res.writeHead(301,{Location: docs[0].url});
+            res.end();
+          }
         });
       }    
     });
@@ -100,7 +96,11 @@ class App {
 
   getSite (name: string, query:any, cb: any) {    
     mongoose.connection.db.collection(name, (err, collection)=> {
-      let newVal = { $inc: {count: 1}};
+      let newVal = { $inc: {count: 0} };
+      console.log(JSON.stringify(query));
+      if (JSON.stringify(query) != '{}'){
+        newVal = { $inc: {count: 1}};
+      }
       collection.findOneAndUpdate(query, newVal, (e, res)=>{
         if (e){
           if (err) return res.status(500).send({ status: 'fail', code: '500', message: 'The server encountered an unexpected condition which prevented it from fulfilling the request.', error: err });

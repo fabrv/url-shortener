@@ -1,23 +1,28 @@
 <ion-header>
-  <ion-navbar>
+  <ion-navbar color="primary">
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title>List</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only class="btn-refresh" (click)="loadSites()">
+        <ion-icon name="refresh"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
 <ion-content>
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content>
+      
+    </ion-refresher-content>
+  </ion-refresher>
   <ion-list>
-    <button ion-item *ngFor="let item of items" (click)="itemTapped($event, item)">
-      <ion-icon [name]="item.icon" item-start></ion-icon>
-      {{item.title}}
-      <div class="item-note" item-end>
-        {{item.note}}
-      </div>
-    </button>
+    <button ion-item *ngFor="let site of sites; index as i" (click)="navigate(i)">
+      <h2>{{site.url}}</h2>
+      <p>{{site.code}}</p>
+      <ion-note item-end>{{site.count}}</ion-note>
+    </button>    
   </ion-list>
-  <div *ngIf="selectedItem" padding>
-    You navigated here from <b>{{selectedItem.title}}</b>
-  </div>
 </ion-content>

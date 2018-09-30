@@ -24,4 +24,13 @@ export class ShortenerServiceProvider {
     }) 
   }
 
+  getSites(){
+    return new Promise ((sites)=>{
+      this.http.get(`${this.backEndAddress}/sites`)
+      .subscribe(data =>{
+        sites(data);
+      });
+    })
+  }
+
 }

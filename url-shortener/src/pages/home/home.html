@@ -25,5 +25,5 @@
       <ion-input #shortenInput [(ngModel)]="shortenLink" type="text"></ion-input>
     </ion-item>
   </ion-list>
-  <button *ngIf="shortenLink != ''" ion-button color="primary" (click)="navigate()">Navegar a vinculo</button>
+  <button *ngIf="shortenLink != ''" ion-button color="primary" outline (click)="navigate()">Navegar a vinculo</button>
 </ion-content>
