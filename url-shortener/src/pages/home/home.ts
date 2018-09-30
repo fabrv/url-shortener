@@ -29,17 +29,20 @@ export class HomePage {
       re = new RegExp(find, 'g');
       url = url.replace(re,'%3F');
 
-      this.shortener.postSite(url).then((data: any)=>{
-        this.shortenLink = `${this.shortener.backEndAddress}/${data.answer.code}`
+      this.shortener.postSite(url).then((site: any)=>{
+        this.shortenLink = `${this.shortener.backEndAddress}/${site.data.code}`
+
+        this.showMsg(this.toastCtrl, 'Vinculo exitosamente acortado');
       });
     }else{
       console.log('Invalid URL')
+      this.showMsg(this.toastCtrl, 'URL invalido');
     }
   }
 
-  showMsg(toastCtrl: ToastController) {
+  showMsg(toastCtrl: ToastController, msg: string) {
     let toast = toastCtrl.create({
-        message: 'Its copied to clipboard',
+        message: msg,
         duration: 3000
     });
     toast.present();

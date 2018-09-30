@@ -17,7 +17,7 @@ export class ShortenerServiceProvider {
 
   postSite(site: string){
     return new Promise ((shorten)=>{
-      this.http.post(`${this.backEndAddress}/${site}`,{}, {})
+      this.http.post(`${this.backEndAddress}/sites/${site}`,{}, {})
       .subscribe(data =>{
         shorten(data);
       });

@@ -24,33 +24,59 @@ class App {
 
     router.get('/:code', (req, res) => {
       console.log(`Resquested get ${req.params.code}`);
-      this.getSite('sites', {code: req.params.code}, (err, docs)=>{
-        console.log(docs[0]);
-        res.writeHead(301,{Location: docs[0].url});
-        res.end();
-      })      
+      if (req.params.code == 'sites'){
+        this.getSite('sites', {}, (err, docs)=>{
+          if (err){
+            res.status(500).send({ status: 'fail', code: '500', message: 'The server encountered an unexpected condition which prevented it from fulfilling the request.', error: err });
+          }
+          res.json(docs);
+        });
+      }else{
+        this.getSite('sites', {code: req.params.code}, (err, docs)=>{
+          if (err){
+            res.status(500).send({ status: 'fail', code: '500', message: 'The server encountered an unexpected condition which prevented it from fulfilling the request.', error: err });
+          }
+          try {
+            if (docs.length == 0){
+              res.status(404).send({status: 'fail', code: 404, message: 'Not found: The server has not found anything matching the Request-URI.'})
+            }else{
+              console.log(docs[0]);
+              res.writeHead(301,{Location: docs[0].url});
+              res.end();
+            }
+          } catch (error) {
+            res.status(400).send({status: 'fail', code: 400, message: 'Bad request: The request could not be understood by the server due to malformed syntax. The client SHOULD NOT repeat the request without modifications.'})
+          }          
+        });
+      }    
     });
 
     router.use(cors());
-    router.post('/:site', (req, res) => {
+    router.post('/sites/:site', (req, res) => {
       console.log(`Resquested post ${req.params.site}`);
-      this.postSite('sites', req.params.site).then((site:any)=>{
-        res.json({
-          message: `Resquested post for ${req.params.site}`,
-          answer: site
+      if (this.validURL(req.params.site)){
+        this.postSite('sites', req.params.site).then((site:any)=>{
+          res.status(201).send({
+            status: 'success',
+            data: site
+          });
         });
-      });
+      }else{
+        res.status(400).send({status: 'fail', code: 400, message: 'Bad request: Parameters is not a valid URL.'})
+      }
     });
+    
     this.app.use('/', router);
   }
 
-  postSite(name: string, url: string){
+  postSite(name: string, url: string){    
     if (!url.includes('http')){
-      url = "http://" + url;
+      url = "https://" + url;
     }   
     const site = {
       url: url,
-      code: (Math.floor(Math.random()*65535)).toString(16)
+      code: (Math.floor(Math.random()*2176782335)).toString(36),
+      count: 0
     };
     let cb: any = [];
 
@@ -72,10 +98,24 @@ class App {
     });
   }
 
-  getSite (name: string, query:any, cb: any) {
+  getSite (name: string, query:any, cb: any) {    
     mongoose.connection.db.collection(name, (err, collection)=> {
-      collection.find(query).toArray(cb);
-    });
+      let newVal = { $inc: {count: 1}};
+      collection.findOneAndUpdate(query, newVal, (e, res)=>{
+        if (e){
+          if (err) return res.status(500).send({ status: 'fail', code: '500', message: 'The server encountered an unexpected condition which prevented it from fulfilling the request.', error: err });
+          res.toArray(cb);
+        }
+        console.log("1 document updated");
+
+        collection.find(query).toArray(cb);
+      })
+    });    
+  }
+
+  validURL(url:string) {
+    var regexp =  /^(?:(?:https?|ftp):\/\/)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:\/\S*)?$/;
+    return regexp.test(url);
   }
 }
 
