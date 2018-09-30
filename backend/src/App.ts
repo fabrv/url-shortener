@@ -1,5 +1,6 @@
 import * as express from 'express';
 import * as mongoose from 'mongoose';
+import * as cors from 'cors';
 
 class App {
   public app;
@@ -18,6 +19,9 @@ class App {
 
   private mountRoutes(): void {
     const router = express.Router();
+
+    router.use(cors());
+
     router.get('/:code', (req, res) => {
       console.log(`Resquested get ${req.params.code}`);
       this.getSite('sites', {code: req.params.code}, (err, docs)=>{
@@ -26,6 +30,7 @@ class App {
       })      
     });
 
+    router.use(cors());
     router.post('/:site', (req, res) => {
       console.log(`Resquested post ${req.params.site}`);
       const ans = this.postSite(req.params.site);
@@ -37,7 +42,7 @@ class App {
     this.app.use('/', router);
   }
 
-  postSite(url: string){      
+  postSite(url: string){    
     const site = {
       url: url,
       code: (Math.floor(Math.random()*65535)).toString(16)
