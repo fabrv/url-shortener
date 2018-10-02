@@ -32,6 +32,7 @@ $ npm start
 ```bash
 $ cd ./url-shortener/url-shortener
 $ npm install -g ionic
+$ npm install
 $ ionic serve
 ```
 
