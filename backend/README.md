@@ -2,7 +2,7 @@
 This is the actual url shortener part of the project. This runs a RESTful API that *posts* new shorten links and *gets* websites.
 
 ## Install and run
-1. First install Mongo and Node, the links and steps for that are in the *Using* segment above.
+1. First install Mongo and Node.
 
 2. Run the next lines after cloning the project:
 ```bash
@@ -17,4 +17,5 @@ Everything is written in Typescript but there is no need to sweat it with compil
 ### Project structure
 The source code is on the *src* folder and the build is in the *dist* folder. *App.ts* has the actual server and *index.ts* is where the server is run.
 
-*src* ---> Typescript ---> *dist*
+* *src*: Project source code (typescrypt)
+* *dist*: Built code (javascript)
