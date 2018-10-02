@@ -38,7 +38,7 @@ $ ionic serve
 
 ## Docs
 ### Backend - Node Server
-[View specific documentation for the backend](#)
+[View specific documentation for the backend](backend/README.md)
 ### Frontend - Ionic App
 [View specific documentation for the frontend](#)
 
