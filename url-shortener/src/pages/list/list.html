@@ -21,7 +21,7 @@
   <ion-list>
     <button ion-item *ngFor="let site of sites; index as i" (click)="navigate(i)">
       <h2>{{site.url}}</h2>
-      <p>{{site.code}}</p>
+      <p>{{shortener.backEndAddress}}/{{site.code}}</p>
       <ion-note item-end>{{site.count}}</ion-note>
     </button>    
   </ion-list>

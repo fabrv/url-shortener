@@ -72,7 +72,8 @@ class App {
     const site = {
       url: url,
       code: (Math.floor(Math.random()*2176782335)).toString(36),
-      count: 0
+      count: 0,
+      createdAt: new Date()
     };
     let cb: any = [];
 

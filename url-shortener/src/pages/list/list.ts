@@ -31,6 +31,6 @@ export class ListPage {
     this.loadSites();
     setTimeout(() => {
       refresher.complete();
-    }, 1000);
+    }, 500);
   }
 }

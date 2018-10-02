@@ -11,7 +11,7 @@ import { Observable } from 'rxjs/Observable';
 export class ShortenerServiceProvider {
   data: Observable<any>;
   result: any = [];
-  public backEndAddress: string = 'http://192.168.0.10:3000';
+  public backEndAddress: string = 'http://10.0.3.159:3000';
   constructor(public http: HttpClient) {    
   }
 
