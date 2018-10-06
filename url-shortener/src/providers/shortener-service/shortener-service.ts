@@ -12,7 +12,7 @@ export class ShortenerServiceProvider {
   data: Observable<any>;
   result: any = [];
   public backEndAddress: string = 'http://10.0.3.159:3000';
-  constructor(public http: HttpClient) {    
+  constructor(public http: HttpClient) {
   }
 
   postSite(site: string){

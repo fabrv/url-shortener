@@ -8,7 +8,7 @@ class App {
 
   constructor() {
     //Mongoose
-    mongoose.connect('mongodb://localhost:27017/myapp');
+    mongoose.connect('mongodb://192.168.0.9:27017/myapp');
     this.app = express();
     this.mountRoutes();
 

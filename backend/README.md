@@ -19,3 +19,4 @@ The source code is on the *src* folder and the build is in the *dist* folder. *A
 
 * *src*: Project source code (typescrypt)
 * *dist*: Built code (javascript)
+
