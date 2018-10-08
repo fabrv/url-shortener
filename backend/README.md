@@ -21,7 +21,7 @@ The source code is on the *src* folder and the build is in the *dist* folder. *A
 * *dist*: Built code (javascript)
 
 ### Code
-**Initiating the server**
+**Initiating the server** (In index.ts)
 
 ```javascript
 import app from './App'
@@ -37,41 +37,112 @@ app.listen(port, (err) => {
 ```
 
 **Routers** 
-(All of the routes are in the funcition `mountRoutes()`)
+(All of the routes are in the funcition `mountRoutes()` in App.ts)
+This declares a GET route in *serverAddress*/parameter, the parameter is called '*code*'
 
 ```javascript
 router.get('/:code', (req, res) => {
-```
-This declares a route for GET in *serverAddress*/parameter, the parameter is called '*code*' 
-
+``` 
+If the the request is *serverAddress*/sites then it's requesting the list of items in the sites collection
 ```javascript  
   if (req.params.code == 'sites'){
     this.getSite('sites', {}, (err, docs)=>{
       if (err){
-        res.status(500).send({ status: 'fail', code: '500', message: 'The server encountered an unexpected condition which prevented it from fulfilling the request.', error: err });
+        res.status(500).send({ 
+          status: 'fail', 
+          code: '500', 
+          message: 'The server encountered an unexpected condition which prevented it from fulfilling the request.', 
+          error: err });
       }
       res.json(docs);
     });
 ```
-
-
+If the get request parameter is not '*sites*' then the next lines will look for the corresponding site in the Mongo collection and redirect the user to that website.
 ```javascript
-  }else{  
-    // getSites() returns a promise with the database result
+  }else{
     this.getSite('sites', {code: req.params.code}, (err, docs)=>{
       if (err){
-        res.status(500).send({ status: 'fail', code: '500', message: 'The server encountered an unexpected condition which prevented it from fulfilling the request.', error: err });
+        res.status(500).send({ 
+          status: 'fail', 
+          code: '500', 
+          message: 'The server encountered an unexpected condition which prevented it from fulfilling the request.', 
+          error: err });
       }
       if (docs.length == 0){
-        res.status(404).send({status: 'fail', code: 404, message: 'Not found: The server has not found anything matching the Request-URI.'})
+        res.status(404).send({
+          status: 'fail', 
+          code: 404, 
+          message: 'Not found: The server has not found anything matching the Request-URI.'})
       }else{
         console.log(docs[0]);
-
-        // Redirects to the corresponding website
         res.writeHead(301,{Location: docs[0].url});
         res.end();
       }
     });
   }    
 });
+```
+
+**MongoDB Insert and Queries** (also in App.ts)
+```javascript
+postSite(name: string, url: string){
+  if (!url.includes('http')){
+    url = "https://" + url;
+  }
+
+  // Site schema
+  // The code of each link is a pseudo-random number from 0 to 2176782335 in base 36
+  const site = {
+    url: url,
+    code: (Math.floor(Math.random()*2176782335)).toString(36),
+    count: 0,
+    createdAt: new Date()
+  };
+  let cb: any = [];
+      
+  return new Promise ((siteRow)=>{
+    // Get mongo collection
+    mongoose.connection.db.collection(name, (err, collection)=>{        
+      cb = collection.find( {url: url} ).toArray( (err, docs)=>{
+        // Verify that the website hasn't been shorten before
+        if (docs.length == 0){
+          this.connection.collection(name).insertOne(site);
+    
+          console.log('Inserted Site:');
+          console.log(site);
+          siteRow(site);
+        }else{
+        // If it has been shorten before return the preexisting code.
+          siteRow(docs[0]);
+        }
+        });
+    });
+  });
+  // (Sorry for the function literal after function literal)
+}
+
+getSite (name: string, query:any, cb: any) {
+  // Get mongo collection
+  mongoose.connection.db.collection(name, (err, collection)=> {
+    // Update query, by deafault 'count' will increment by 0 (it will not increment)
+    let newVal = { $inc: {count: 0} };
+    // If the query is not empty then increment by 1
+    // If the user is requesting a singular site it must count it as a visit but
+    //      if the user is requesting the list of websites it shouldn't add to the visit count of a link
+    if (JSON.stringify(query) != '{}'){
+      newVal = { $inc: {count: 1}};
+    }
+
+    // Send the update query
+    collection.findOneAndUpdate(query, newVal, (e, res)=>{
+      if (e){
+        if (err) return res.status(500).send({ status: 'fail', code: '500', message: 'The server encountered an unexpected condition which prevented it from fulfilling the request.', error: err });
+        res.toArray(cb);
+      }
+      console.log("1 document updated");
+
+      collection.find(query).toArray(cb);
+    })
+  });    
+}
 ```
