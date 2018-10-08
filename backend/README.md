@@ -12,11 +12,11 @@ $ npm start
 ```
 
 ## Using the API
-The API is used through standard http requests. This are some examples of expected results from get and post requests.
+The API is used through standard http requests. This are the expected results from get and post requests.
 
 URL | GET | POST
 --- | --- | ----
-http://*youraddress*/sites | List of elements in the collection sites, the result format is this: [{"_id":"","url":"","code":"","count":0,"createdAt":""}] | Status of transaction and inserted element or reason of failure {"status":"success","data":{"url":"","code":"","count":0,"createdAt":"","_id":""}}
+http://*youraddress*/sites | **List** of elements in the collection sites | **Adds** an element to sites collectiona and retunrs status of transaction and inserted element or reason of failure.
 http://*youraddress*/azb091 | **Redirects to website** if successful, if not then returns a 404 | **No POST request for /:code**
 
 ## Understading the code
