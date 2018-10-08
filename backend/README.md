@@ -37,7 +37,7 @@ app.listen(port, (err) => {
 ```
 
 **Routers** 
-(All of the routes are in the funcition `mountRoutes()` in App.ts)
+(All of the routes are in the funcition `mountRoutes()` in App.ts).  
 This declares a GET route in *serverAddress*/parameter, the parameter is called '*code*'
 
 ```javascript
@@ -83,15 +83,10 @@ If the get request parameter is not '*sites*' then the next lines will look for 
 });
 ```
 
-**MongoDB Insert and Queries** (also in App.ts)
+**MongoDB Insert and Queries** (also in App.ts).  
+Post function, The code of each link is a pseudo-random number from 0 to 2176782335 in base 36
 ```javascript
 postSite(name: string, url: string){
-  if (!url.includes('http')){
-    url = "https://" + url;
-  }
-
-  // Site schema
-  // The code of each link is a pseudo-random number from 0 to 2176782335 in base 36
   const site = {
     url: url,
     code: (Math.floor(Math.random()*2176782335)).toString(36),
@@ -99,12 +94,12 @@ postSite(name: string, url: string){
     createdAt: new Date()
   };
   let cb: any = [];
-      
-  return new Promise ((siteRow)=>{
-    // Get mongo collection
+```
+Gets the Mongo Collection, verifies if the URL hasn't been shorten before and if it has return the previosly saved shorten link, if it hasn't return the newly uploaded shorten URL
+```javascript
+  return new Promise ((siteRow)=>{    
     mongoose.connection.db.collection(name, (err, collection)=>{        
-      cb = collection.find( {url: url} ).toArray( (err, docs)=>{
-        // Verify that the website hasn't been shorten before
+      cb = collection.find( {url: url} ).toArray( (err, docs)=>{        
         if (docs.length == 0){
           this.connection.collection(name).insertOne(site);
     
@@ -112,23 +107,20 @@ postSite(name: string, url: string){
           console.log(site);
           siteRow(site);
         }else{
-        // If it has been shorten before return the preexisting code.
           siteRow(docs[0]);
         }
         });
     });
   });
-  // (Sorry for the function literal after function literal)
 }
-
+```
+Get site from the DB function.  
+Update query, by deafault 'count' will increment by 0 (it will not increment). If the query is not empty then increment by 1.  
+If the user is requesting a singular site it must count it as a visit but if the user is requesting the list of websites it shouldn't add to the visit count of a link.
+```javascript
 getSite (name: string, query:any, cb: any) {
-  // Get mongo collection
-  mongoose.connection.db.collection(name, (err, collection)=> {
-    // Update query, by deafault 'count' will increment by 0 (it will not increment)
+  mongoose.connection.db.collection(name, (err, collection)=> {    
     let newVal = { $inc: {count: 0} };
-    // If the query is not empty then increment by 1
-    // If the user is requesting a singular site it must count it as a visit but
-    //      if the user is requesting the list of websites it shouldn't add to the visit count of a link
     if (JSON.stringify(query) != '{}'){
       newVal = { $inc: {count: 1}};
     }
@@ -136,7 +128,11 @@ getSite (name: string, query:any, cb: any) {
     // Send the update query
     collection.findOneAndUpdate(query, newVal, (e, res)=>{
       if (e){
-        if (err) return res.status(500).send({ status: 'fail', code: '500', message: 'The server encountered an unexpected condition which prevented it from fulfilling the request.', error: err });
+        if (err) return res.status(500).send({ 
+          status: 'fail', 
+          code: '500', 
+          message: 'The server encountered an unexpected condition which prevented it from fulfilling the request.', 
+          error: err });
         res.toArray(cb);
       }
       console.log("1 document updated");
