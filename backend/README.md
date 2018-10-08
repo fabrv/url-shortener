@@ -16,8 +16,8 @@ The API is used through standard http requests. This are the expected results fr
 
 URL | GET | POST
 --- | --- | ----
-http://*youraddress*/sites | **List** of elements in the collection sites | **Adds** an element to sites collection and returns status of transaction and inserted element or reason of failure.
-http://*youraddress*/azb091 | **Redirects to website** if successful, if not then returns a 404 | **No POST request for /:code**
+http://*youraddress*/sites | **List** of elements in the collection '*sites*'. | **Adds** an element to sites collection and returns status of transaction and inserted element or reason of failure.
+http://*youraddress*/azb091 | **Redirects to website** if successful, if not then returns a 404. | **No POST request for /:code**.
 
 ## Understading the code
 Everything is written in Typescript but there is no need to sweat it with compiling, just run `npm run build` or `tsc` on this directory and the code will be built production ready on the *dist* folder. And if you want to live-run use `npm start`.

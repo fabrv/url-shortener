@@ -40,6 +40,13 @@ $ ionic serve
 ## Docs
 ### Backend - Node Server
 [View specific documentation for the backend](backend/README.md)
+
+The API is used through standard http requests. This are the expected results from get and post requests.
+
+URL | GET | POST
+--- | --- | ----
+http://*youraddress*/sites | **List** of elements in the collection '*sites*'. | **Adds** an element to sites collection and returns status of transaction and inserted element or reason of failure.
+http://*youraddress*/azb091 | **Redirects to website** if successful, if not then returns a 404. | **No POST request for /:code**.
 ### Frontend - Ionic App
 [View specific documentation for the frontend](#)
 
