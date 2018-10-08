@@ -16,8 +16,8 @@ The API is used through standard http requests. This are some examples of expect
 
 URL | GET | POST
 --- | --- | ----
-http://*youraddress*/sites | [{"_id":"5bbacf860ebb540ed8cf085c","url":"https://example.com","code":"hmksiz","count":0,"createdAt":"2018-10-08T03:31:18.870Z"}] | {"status":"success","data":{"url":"https://example.com","code":"hmksiz","count":0,"createdAt":"2018-10-08T03:31:18.870Z","_id":"5bbacf860ebb540ed8cf085c"}}
-http://*youraddress*/azb091 | **Redirects to website** if succesfull, if not then returns a 404 | **No POST request for /:code**
+http://*youraddress*/sites | List of elements in the collection sites, the result format is this: [{"_id":"","url":"","code":"","count":0,"createdAt":""}] | Status of transaction and inserted element or reason of failure {"status":"success","data":{"url":"","code":"","count":0,"createdAt":"","_id":""}}
+http://*youraddress*/azb091 | **Redirects to website** if successful, if not then returns a 404 | **No POST request for /:code**
 
 ## Understading the code
 Everything is written in Typescript but there is no need to sweat it with compiling, just run `npm run build` or `tsc` on this directory and the code will be built production ready on the *dist* folder. And if you want to live-run use `npm start`.
