@@ -16,7 +16,7 @@ The API is used through standard http requests. This are the expected results fr
 
 URL | GET | POST
 --- | --- | ----
-http://*youraddress*/sites | **List** of elements in the collection sites | **Adds** an element to sites collectiona and retunrs status of transaction and inserted element or reason of failure.
+http://*youraddress*/sites | **List** of elements in the collection sites | **Adds** an element to sites collection and returns status of transaction and inserted element or reason of failure.
 http://*youraddress*/azb091 | **Redirects to website** if successful, if not then returns a 404 | **No POST request for /:code**
 
 ## Understading the code
