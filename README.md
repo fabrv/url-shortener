@@ -8,6 +8,7 @@ The project has 2 parts, the backend (the actual url shortener) and a implementa
 * [NodeJS](https://github.com/nodejs/node)
 * [MongoDB](https://www.mongodb.com/)
 * [Express](https://expressjs.com/)
+* [CORS](https://www.npmjs.com/package/cors)
 
 **Install and run:**
 
