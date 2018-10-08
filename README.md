@@ -56,4 +56,4 @@ http://*youraddress*/azb091 | **Redirects to website** if successful, if not the
 
 ## License
 
-This project is licensed under the GNU3.0 License - see the [LICENSE.md](LICENSE.md) file for details
+This project is licensed under the GNU3.0 License - see the [LICENSE](LICENSE) file for details
