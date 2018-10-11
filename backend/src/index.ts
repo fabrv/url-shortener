@@ -11,9 +11,9 @@ for (let i:number = 0; i < process.argv.length; i++){
       Options:
         -h, --help
         -p, --port [port number]
-        --mongo-host [mongo hostname]
+        --mongo-db [mongo dbname]
         --mongo-port [mongo port]
-        --mongo-address [mongo address]  
+        --mongo-host [mongo hostname]  
       `);
       process.exit();
     
@@ -21,21 +21,6 @@ for (let i:number = 0; i < process.argv.length; i++){
     case '--port':
       if (!isNaN(parseInt(process.argv[i + 1]))){
         port = parseInt(process.argv[i + 1]);
-      }
-    
-    case '--mongo-host':
-      if (process.argv[i + 1]){
-        app.mongoDatabase = process.argv[i + 1];
-      }
-    
-    case '--mongo-port':
-      if (!isNaN(parseInt(process.argv[i + 1]))){
-        app.mongoPort = parseInt(process.argv[i + 1]);
-      }
-
-    case '--mongo-address':
-      if (process.argv[i + 1]){
-        app.mongoAddress = process.argv[i + 1];
       }
   }
 }

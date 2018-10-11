@@ -7,11 +7,31 @@ class App {
   public connection: any = mongoose.connection;
   public mongoPort: number = 27017
   public mongoAddress: string = 'localhost';
-  public mongoDatabase: string = 'myapp'
+  public mongoDatabase: string = 'myapp'  
 
   constructor() {
+    for (let i:number = 0; i < process.argv.length; i++){
+      switch (process.argv[i]){
+        case '--mongo-db':
+          console.log(process.argv[i + 1]);
+          if (process.argv[i + 1]){
+            this.mongoDatabase = process.argv[i + 1];
+          }
+        
+        case '--mongo-port':
+          if (!isNaN(parseInt(process.argv[i + 1]))){
+            this.mongoPort = parseInt(process.argv[i + 1]);
+          }
+
+        case '--mongo-host':
+          if (process.argv[i + 1]){
+            this.mongoAddress = process.argv[i + 1];
+          }
+      }
+    }
+
     // Connection string to mongodb
-    mongoose.connect(`mongodb://${this.mongoAddress}/${this.mongoDatabase}:${this.mongoPort}`);
+    mongoose.connect(`mongodb://${this.mongoAddress}:${this.mongoPort}/${this.mongoDatabase}`);
 
 
     // Express app
@@ -146,4 +166,4 @@ class App {
 }
 
 // Export this class
-export default new App().app
+export default new App().app;
