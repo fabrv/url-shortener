@@ -5,10 +5,14 @@ import * as cors from 'cors';
 class App {
   public app: any;
   public connection: any = mongoose.connection;
+  public mongoPort: number = 27017
+  public mongoAddress: string = 'localhost';
+  public mongoDatabase: string = 'myapp'
 
   constructor() {
     // Connection string to mongodb
-    mongoose.connect('mongodb://localhost:27017/myapp');
+    mongoose.connect(`mongodb://${this.mongoAddress}/${this.mongoDatabase}:${this.mongoPort}`);
+
 
     // Express app
     this.app = express();
@@ -126,10 +130,7 @@ class App {
 
       // Send the update query
       collection.findOneAndUpdate(query, newVal, (e, res)=>{
-        if (e){
-          if (err) return res.status(500).send({ status: 'fail', code: '500', message: 'The server encountered an unexpected condition which prevented it from fulfilling the request.', error: err });
-          res.toArray(cb);
-        }
+        if (e) return console.log(e);
         console.log("1 document updated");
 
         collection.find(query).toArray(cb);
