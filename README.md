@@ -47,6 +47,20 @@ URL | GET | POST
 --- | --- | ----
 http://*youraddress*/sites | **List** of elements in the collection '*sites*'. | **Adds** an element to sites collection and returns status of transaction and inserted element or reason of failure.
 http://*youraddress*/azb091 | **Redirects to website** if successful, if not then returns a 404. | **No POST request for /:code**.
+
+#### Command line options
+This are some command line options:
+Usage url-shortener: node index *options* *arguments*
+Options:
+
+Command | Action
+------- | ------
+**-h, --help** | Prints all of the command line options
+**-p, --port** [port number] | Sets port name of the node server (3000 by default)
+**--mongo-db** [mongo collection name] | Sets the mongo collection ('*short*' by default)
+**--mongo-host** [mongo hostname] | Sets the hostname where mongoDB is (localhost by default) 
+**--mongo-port** [mongo port] | Sets the port where mongoDB is (27017 by default)
+
 ### Frontend - Ionic App
 [View specific documentation for the frontend](#)
 
