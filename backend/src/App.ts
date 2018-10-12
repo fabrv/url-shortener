@@ -7,7 +7,7 @@ class App {
   public connection: any = mongoose.connection;
   public mongoPort: number = 27017
   public mongoAddress: string = 'localhost';
-  public mongoDatabase: string = 'myapp'  
+  public mongoDatabase: string = 'short'  
 
   constructor() {
     for (let i:number = 0; i < process.argv.length; i++){
@@ -31,6 +31,7 @@ class App {
     }
 
     // Connection string to mongodb
+    console.log(`MongoDB address on: 'mongodb://${this.mongoAddress}:${this.mongoPort}/${this.mongoDatabase}'`)
     mongoose.connect(`mongodb://${this.mongoAddress}:${this.mongoPort}/${this.mongoDatabase}`);
 
 
