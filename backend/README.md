@@ -22,7 +22,7 @@ http://*youraddress*/azb091 | **Redirects to website** if successful, if not the
 ## Command line options
 Usage url-shortener: node index *options* *arguments*
 Options:
- Command | Action
+ COMMAND | ACTION
  ------- | ------
  -h, --help | Prints all of the command line options
  -p, --port [port number] | Sets port name of the node server (3000 by default)
