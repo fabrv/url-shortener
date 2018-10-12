@@ -22,13 +22,15 @@ http://*youraddress*/azb091 | **Redirects to website** if successful, if not the
 ## Command line options
 Usage url-shortener: node index *options* *arguments*
 Options:
- COMMAND | ACTION
- ------- | ------
- -h, --help | Prints all of the command line options
- -p, --port [port number] | Sets port name of the node server (3000 by default)
- --mongo-db [mongo collection name] | Sets the mongo collection ('*short*' by default)
- --mongo-host [mongo hostname] | Sets the hostname where mongoDB is (localhost by default) 
- --mongo-port [mongo port] | Sets the port where mongoDB is (27017 by default)
+
+
+Command | Action
+------- | ------
+**-h, --help** | Prints all of the command line options
+**-p, --port** [port number] | Sets port name of the node server (3000 by default)
+**--mongo-db** [mongo collection name] | Sets the mongo collection ('*short*' by default)
+**--mongo-host** [mongo hostname] | Sets the hostname where mongoDB is (localhost by default) 
+**--mongo-port** [mongo port] | Sets the port where mongoDB is (27017 by default)
 
 ## Understading the code
 Everything is written in Typescript but there is no need to sweat it with compiling, just run `npm run build` or `tsc` on this directory and the code will be built production ready on the *dist* folder. And if you want to live-run use `npm start`.
