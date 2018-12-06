@@ -1,6 +1,6 @@
 {
-  "name": "url-shortener",
-  "version": "1.1.0",
+  "name": "node-url-shortener-ts",
+  "version": "1.1.1",
   "description": "Simple Node URL shortener",
   "main": "app.js",
   "scripts": {
@@ -10,15 +10,15 @@
   },
   "author": "Fabrizzio Rivera",
   "license": "GPL-3.0",
-  "dependencies": {
-    "@types/cors": "^2.8.4",
-    "@types/express": "^4.16.0",
-    "@types/mongoose": "^5.2.19",
+  "dependencies": {    
     "cors": "^2.8.4",
     "express": "^4.16.3",
     "mongoose": "^5.3.0"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.4",
+    "@types/express": "^4.16.0",
+    "@types/mongoose": "^5.2.19",
     "@types/node": "^10.11.3",
     "eslint-plugin-typescript": "^0.12.0",
     "nodemon": "^1.18.4",

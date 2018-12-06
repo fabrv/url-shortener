@@ -152,8 +152,7 @@ class App {
       // Send the update query
       collection.findOneAndUpdate(query, newVal, (e, res)=>{
         if (e) return console.log(e);
-        console.log("1 document updated");
-
+        console.log('yolanda')
         collection.find(query).toArray(cb);
       })
     });    

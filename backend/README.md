@@ -4,7 +4,14 @@ This is the actual '*URL Shortener*' part of the project. This runs a RESTful AP
 ## Install and run
 1. First install Mongo and Node.
 
-2. Run the next lines after cloning the project:
+2.a
+If you are installing this through npm use.
+```bash
+npm start
+```
+
+2.b If you are installing with github  
+ Run the next lines after cloning the project:
 ```bash
 $ cd ./url-shortener/backend
 $ npm install
