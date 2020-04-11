@@ -11,20 +11,20 @@
   "author": "Fabrizzio Rivera",
   "license": "GPL-3.0",
   "dependencies": {    
-    "cors": "^2.8.4",
-    "express": "^4.16.3",
-    "mongoose": "^5.3.0"
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "mongoose": "^5.9.7"
   },
   "devDependencies": {
-    "@types/cors": "^2.8.4",
-    "@types/express": "^4.16.0",
-    "@types/mongoose": "^5.2.19",
-    "@types/node": "^10.11.3",
-    "eslint-plugin-typescript": "^0.12.0",
-    "nodemon": "^1.18.4",
-    "ts-node": "^7.0.1",
-    "typescript": "^3.1.1",
-    "typescript-eslint-parser": "^19.0.2"
+    "@types/cors": "^2.8.6",
+    "@types/express": "^4.17.6",
+    "@types/mongoose": "^5.7.10",
+    "@types/node": "^13.11.1",
+    "eslint-plugin-typescript": "^0.14.0",
+    "nodemon": "^2.0.3",
+    "ts-node": "^8.8.2",
+    "typescript": "^3.8.3",
+    "typescript-eslint-parser": "^22.0.0"
   },
   "standard": {
     "parser": "typescript-eslint-parser",
